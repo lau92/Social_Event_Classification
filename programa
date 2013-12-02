@@ -1,0 +1,50 @@
+import pandas as pd
+
+meta_train = pd.read_csv('C:\Users\Acer\Desktop\Projecte\Metadades\sed2013_task2_dataset_train.csv', sep='\t');
+tags_train = pd.read_csv('C:\Users\Acer\Desktop\Projecte\Metadades\sed2013_task2_dataset_train_tags.csv', sep='\t');
+sol_train  = pd.read_csv('C:\Users\Acer\Desktop\Projecte\Metadades\sed2013_task2_dataset_train_gs.csv', sep='\t');
+
+concert = [] #vector corresponent als tags de concert
+conference = []
+exhibition = []
+fashion = []
+non_event = []
+other = []
+sport = []
+theater_dance = []
+protest = []
+
+x = len(sol_train)  #numero de solucions
+y = len(tags_train) #numero de tags
+
+i = 0
+j = 0
+
+while (j < x ): 
+    i = 0
+    while (i < y ):
+        if (tags_train.document_id[i] == sol_train.document_id[j]):
+            if (sol_train.event_type[j] == 'concert'):
+                concert.append(tags_train.tag[i])
+            elif (sol_train.event_type[j] == 'conference'):
+                conference.append(tags_train.tag[i])
+            elif (sol_train.event_type[j] == 'exhibition'):
+                exhibition.append(tags_train.tag[i]) 
+            elif (sol_train.event_type[j] == 'fashion'):
+                fashion.append(tags_train.tag[i])
+            elif (sol_train.event_type[j] == 'non_event'):
+                non_event.append(tags_train.tag[i])
+            elif (sol_train.event_type[j] == 'other'):
+                other.append(tags_train.tag[i])
+            elif (sol_train.event_type[j] == 'sport'):
+                sport.append(tags_train.tag[i])
+            elif (sol_train.event_type[j] == 'theater_dance'):
+                theater_dance.append(tags_train.tag[i])
+            elif (sol_train.event_type[j] == 'protest'):
+                protest.append(tags_train.tag[i])   
+                                
+        i = i + 1
+    j = j + 1
+            
+
+       
