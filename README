@@ -1,10 +1,10 @@
-
-Title: 
 Metadata Social Event Classification
+Sergi Diaz, Iker Elorza, Ferran Monfort, Jordi Aguilar
 
-Description:
-Classification a set of images in different event classes looking the metadata
+How to use:
 
-Instructions to us the software
+1. Open a Python Editor:
+2. Open "Descriptor.py", run and obtain the decriptor files for each event type.
+3. Open "Classificador.py", run changing the file path and obtain the file results. 
+4. Open "Avaluador.py", run changing the file path and obtein the results, images and files.
 
-External library links
