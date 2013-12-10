@@ -232,34 +232,5 @@ f.write('      ')
 f.write(str("%.2f" % avg[2])) 
 f.write('\n\n')
 
-#---------------PERCENTATGE + PIE
-correcte = 0
-total = 0
-y = 0
-
-while (y < 9):
-    correcte = correcte + events[y][0] + events[y][3]
-    total = total + events[y][0] + events[y][1] + events [y][2] + events[y][3]
-    y = y + 1
-
-tpcent_correcte = 0
-tpcent_correcte = correcte / total * 100
-tpcent_erroni = 100 - tpcent_correcte
-
-f.write('-----------------------------------------\n')
-f.write('\n')
-f.write('Correctament classificat: '+str("%.2f" % tpcent_correcte+'%\n'))
-f.write('Erroniament classificat: '+str("%.2f" % tpcent_erroni+'%\n'))
-
-fig4 = plt.figure(4)
-labels = 'Correctament classificats', 'Erroniament classificats'
-sizers = [tpcent_correcte, tpcent_erroni]
-colors = ['green', 'red']
-explode = (0.1, 0)
-plt.pie(sizers, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',shadow=True, startangle=90)
-plt.axis('equal')
-plt.savefig("Percentatge.png",bbox_inches='tight')
-plt.close()
-
 f.close()
 print(str(datetime.timedelta(seconds=(time.time()-timer))))
