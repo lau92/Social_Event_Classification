@@ -1,20 +1,25 @@
+Metadata Social Event Classification
+Sergi Diaz, Iker Elorza, Ferran Monfort, Jordi Aguilar
 
-This code has been desgined to classify images using metadates, it classified in event or non event and if it’s event in what class.
+PROJECT EXPLANATION
+This code has been designed to classify images using metadates.
+Classify in event or non event and if it’s event in wich class.
 
-1º DESCRIPTOR: 
-Extracts tags from every train images and save each tags in the corresponding event file.   
+ DESCRIPTOR: 
+ Extracts tags from every train image and save each tag in the corresponding event file.   
 
-2º CLASSIFICATOR:
-Takes document_id and tags from corresponding event type file. It generate a list with both parameters where the first position is document_id and the second is a list with all tags. 
-Then the classificator compare each tag list with one of the descriptor files. 
-For every comparation extracts the number of equal tags that exists in every file, with a function the classificator find out what kind of event is.
-Those results are saved in a file, in two columns:
--Document_id
--Event type  
+ CLASSIFICATOR:
+ Takes document_id and tags from corresponding event type file.
+ It generates a list with both parameters where the first position is document_id and the second is a list with all tags. 
+ Then, the classificator compare each tag list with one of the descriptor files. 
+ For every comparation extracts the number of equal tags that exists in every file.
+ With a function the classificator find out what type of event is.
+ Those results are saved in a file in two columns:
+  -document_id
+  -event_type  
 
-
-3ª EVALUATION:
- 
-The evaluator takes the classificator results and read the ground truth, comparing the event types and making the confusion matrix. 
-With these values the evaluator calculates the precision, recall, F1 score and average of previous (precision, recall, F1 score). 
-Show the results in a bar graph and save it in a .txt file.
+ EVALUATION:
+ The evaluator takes the classificator results and read the ground truth.
+ Compares the event types and makes the confusion matrix. 
+ With these values the evaluator calculates the precision, recall, F1 score and average of previous.
+ Show the results in a bar graph and save it in a .txt file.
