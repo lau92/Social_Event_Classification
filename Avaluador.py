@@ -4,6 +4,7 @@
 #Sergi Diaz, Iker Elorza, Ferran Monfort, Jordi Aguilar
 
 import pandas as pd
+import csv
 import numpy as np 
 import matplotlib.pyplot as plt
 import time
@@ -12,10 +13,10 @@ import datetime
 timer = time.time()
 
 #Arxiu de resultats provinents del classificador
-class_result = pd.read_csv('C:\Users\Acer\Desktop\Projecte\Metadades\Resultats_Definitius.txt', sep=' ') #delimitat per espais
+class_result = pd.read_csv('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Sessio 5\Res_34.txt', sep=' ') 
 
 #Ground truth
-sol_train  = pd.read_csv('C:\Users\Acer\Desktop\Projecte\Metadades\sol_2.txt', sep=' ')
+sol_train  = pd.read_csv('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Projecte_GDSA_1.3-master\Projecte_GDSA_1.3-master\Metadades\PER.txt', sep=' ')
 
 #[+certs, +fals, -fals, -cert]
 concert =   np.zeros(4,float)
@@ -34,7 +35,16 @@ j = 0
 len_class = len (class_result)
 len_solut = len (sol_train)
 
-#------------------------------MATRIU DE CONFUSIO PER A CADA EVENT
+predict = []
+ground = []
+y = 0
+
+while ( y < len_class):
+    predict.append(class_result.event_type[y])
+    ground.append(sol_train.event_type[y])
+    y+=1
+
+#------------------- MATRIU DE CONFUSIO PER A CADA EVENT
 
 while (i < len_class):
     j = 0
@@ -52,64 +62,66 @@ while (i < len_class):
                 elif (class_result.event_type[i] == "sports"):       sports[0] += 1.0
                 elif (class_result.event_type[i] == "theater_dance"):   the_dance[0] += 1.0
     
-                #incrementar el negatius certs de la resta d'events
-                if (class_result.event_type[i] != "concert"):     concert[3] += 1.0
-                if (class_result.event_type[i] != "conference"):  conference[3] += 1.0
-                if (class_result.event_type[i] != "exhibition"):  exhibition[3] += 1.0
-                if (class_result.event_type[i] != "fashion"):     fashion[3] += 1.0
-                if (class_result.event_type[i] != "non_event"):   non_event[3] += 1.0
-                if (class_result.event_type[i] != "other"):       other[3] += 1.0
-                if (class_result.event_type[i] != "protest"):     protest[3] += 1.0
-                if (class_result.event_type[i] != "sports"):       sports[3] += 1.0
-                if (class_result.event_type[i] != "theater_dance"):   the_dance[3] += 1.0 
+                #incrementar el negatius certs
+                if (class_result.event_type[i] != "concert" and sol_train.event_type[j] != "concert" ):              concert[3] += 1.0
+                if (class_result.event_type[i] != "conference"and sol_train.event_type[j] != "conference"):          conference[3] += 1.0
+                if (class_result.event_type[i] != "exhibition"and sol_train.event_type[j] != "exhibition"):          exhibition[3] += 1.0
+                if (class_result.event_type[i] != "fashion"and sol_train.event_type[j] != "fashion"):                fashion[3] += 1.0
+                if (class_result.event_type[i] != "non_event"and sol_train.event_type[j] != "non_event"):            non_event[3] += 1.0
+                if (class_result.event_type[i] != "other"and sol_train.event_type[j] != "other"):                    other[3] += 1.0
+                if (class_result.event_type[i] != "protest"and sol_train.event_type[j] != "protest"):                protest[3] += 1.0
+                if (class_result.event_type[i] != "sports"and sol_train.event_type[j] != "sports"):                  sports[3] += 1.0
+                if (class_result.event_type[i] != "theater_dance" and sol_train.event_type[j] != "theater_dance"):   the_dance[3] += 1.0 
                 
             else:
                 #incrementar positiu fals de la primera classe
-                if (class_result.event_type[i] == "concert"):     concert[1] += 1.0
-                elif (class_result.event_type[i] == "conference"):  conference[1] += 1.0
-                elif (class_result.event_type[i] == "exhibition"):  exhibition[1] += 1.0
-                elif (class_result.event_type[i] == "fashion"):     fashion[1] += 1.0
-                elif (class_result.event_type[i] == "non_event"):   non_event[1] += 1.0
-                elif (class_result.event_type[i] == "other"):       other[1] += 1.0
-                elif (class_result.event_type[i] == "protest"):     protest[1] += 1.0
-                elif (class_result.event_type[i] == "sports"):       sports[1] += 1.0
-                elif (class_result.event_type[i] == "theater_dance"):   the_dance[1] += 1.0 
+                if (class_result.event_type[i] == "concert" and sol_train.event_type[j] != "concert"):     concert[1] += 1.0
+                elif (class_result.event_type[i] == "conference" and sol_train.event_type[j] != "conference"):  conference[1] += 1.0
+                elif (class_result.event_type[i] == "exhibition" and sol_train.event_type[j] != "exhibition"):  exhibition[1] += 1.0
+                elif (class_result.event_type[i] == "fashion" and sol_train.event_type[j] != "fashion"):     fashion[1] += 1.0
+                elif (class_result.event_type[i] == "non_event" and sol_train.event_type[j] != "non_event"):   non_event[1] += 1.0
+                elif (class_result.event_type[i] == "other" and sol_train.event_type[j] != "other"):       other[1] += 1.0
+                elif (class_result.event_type[i] == "protest" and sol_train.event_type[j] != "protest"):     protest[1] += 1.0
+                elif (class_result.event_type[i] == "sports" and sol_train.event_type[j] != "sports"):       sports[1] += 1.0
+                elif (class_result.event_type[i] == "theater_dance" and sol_train.event_type[j] != "theater_dance"):   the_dance[1] += 1.0 
                 
-                #incrementar el negatius fals de l'altre event
-                if (sol_train.event_type[j] == "concert"):     concert[2] += 1.0
-                elif (sol_train.event_type[j] == "conference"):  conference[2] += 1.0
-                elif (sol_train.event_type[j] == "exhibition"):  exhibition[2] += 1.0
-                elif (sol_train.event_type[j] == "fashion"):     fashion[2] += 1.0
-                elif (sol_train.event_type[j] == "non_event"):   non_event[2] += 1.0
-                elif (sol_train.event_type[j] == "other"):       other[2] += 1.0
-                elif (sol_train.event_type[j] == "protest"):     protest[2] += 1.0
-                elif (sol_train.event_type[j] == "sports"):       sports[2] += 1.0
-                elif (sol_train.event_type[j] == "theater_dance"):   the_dance[2] += 1.0
+                #incrementar els positius fals 
+                if (class_result.event_type[i] != "concert" and sol_train.event_type[j] == "concert"):     concert[2] += 1.0
+                elif (class_result.event_type[i] != "conference" and sol_train.event_type[j] == "conference"):  conference[2] += 1.0
+                elif (class_result.event_type[i] != "exhibition" and sol_train.event_type[j] == "exhibition"):  exhibition[2] += 1.0
+                elif (class_result.event_type[i] != "fashion" and sol_train.event_type[j] == "fashion"):     fashion[2] += 1.0
+                elif (class_result.event_type[i] != "non_event" and sol_train.event_type[j] == "non_event"):   non_event[2] += 1.0
+                elif (class_result.event_type[i] != "other" and sol_train.event_type[j] == "other"):       other[2] += 1.0
+                elif (class_result.event_type[i] != "protest" and sol_train.event_type[j] == "protest"):     protest[2] += 1.0
+                elif (class_result.event_type[i] != "sports" and sol_train.event_type[j] == "sports"):       sports[2] += 1.0
+                elif (class_result.event_type[i] != "theater_dance" and sol_train.event_type[j] == "theater_dance"):   the_dance[2] += 1.0 
                 
-                #incrementar el negatius certs de la resta d'events
-                if (class_result.event_type[i] != "concert" or sol_train.event_type[j] != "concert" ):              concert[3] += 1.0
-                if (class_result.event_type[i] != "conference"or sol_train.event_type[j] != "conference"):          conference[3] += 1.0
-                if (class_result.event_type[i] != "exhibition"or sol_train.event_type[j] != "exhibition"):          exhibition[3] += 1.0
-                if (class_result.event_type[i] != "fashion"or sol_train.event_type[j] != "fashion"):                fashion[3] += 1.0
-                if (class_result.event_type[i] != "non_event"or sol_train.event_type[j] != "non_event"):            non_event[3] += 1.0
-                if (class_result.event_type[i] != "other"or sol_train.event_type[j] != "other"):                    other[3] += 1.0
-                if (class_result.event_type[i] != "protest"or sol_train.event_type[j] != "protest"):                protest[3] += 1.0
-                if (class_result.event_type[i] != "sports"or sol_train.event_type[j] != "sports"):                  sports[3] += 1.0
-                if (class_result.event_type[i] != "theater_dance" or sol_train.event_type[j] != "theater_dance"):   the_dance[3] += 1.0 
+                #incrementar els negatius fals
+                if (class_result.event_type[i] != "concert" and sol_train.event_type[j] != "concert" ):              concert[3] += 1.0
+                if (class_result.event_type[i] != "conference"and sol_train.event_type[j] != "conference"):          conference[3] += 1.0
+                if (class_result.event_type[i] != "exhibition"and sol_train.event_type[j] != "exhibition"):          exhibition[3] += 1.0
+                if (class_result.event_type[i] != "fashion"and sol_train.event_type[j] != "fashion"):                fashion[3] += 1.0
+                if (class_result.event_type[i] != "non_event"and sol_train.event_type[j] != "non_event"):            non_event[3] += 1.0
+                if (class_result.event_type[i] != "other"and sol_train.event_type[j] != "other"):                    other[3] += 1.0
+                if (class_result.event_type[i] != "protest"and sol_train.event_type[j] != "protest"):                protest[3] += 1.0
+                if (class_result.event_type[i] != "sports"and sol_train.event_type[j] != "sports"):                  sports[3] += 1.0
+                if (class_result.event_type[i] != "theater_dance" and sol_train.event_type[j] != "theater_dance"):   the_dance[3] += 1.0               
+               
             break;
         j=j+1
     i=i+1          
 
 
 
-#---------------------- PRECISIO, Record, F1score, AVG precision
+#--------- Precisio, Record, F1score, Accuracy
 
 precisio = np.zeros(9,float)
 record = np.zeros(9,float)
 f1score = np.zeros(9,float)
 avg = np.zeros(3,float)
 
-#PRECISIO
+#--------- PRECISIO
+
 precisio[0] = concert[0]/(concert[0]+concert[1])
 precisio[1] = conference[0] / (conference[0]+conference[1])
 precisio[2] = exhibition[0] / (exhibition[0]+exhibition[1])
@@ -120,7 +132,8 @@ precisio[6] = protest[0] / (protest[0]+protest[1])
 precisio[7] = sports[0] / (sports[0]+sports[1])
 precisio[8] = the_dance[0] / (the_dance[0]+the_dance[1])
 
-#RECORD
+#-------- RECORD
+
 record[0] = concert[0] / (concert[0]+concert[2]) 
 record[1] = conference[0] / (conference[0]+conference[2])
 record[2] = exhibition[0] / (exhibition[0]+exhibition[2])
@@ -131,7 +144,8 @@ record[6] = protest[0] / (protest[0]+protest[2])
 record[7] = sports[0] / (sports[0]+sports[2])
 record[8] = the_dance[0] / (the_dance[0]+the_dance[2])
 
-#F1-SCORE
+#------- F1-SCORE
+
 f1score[0] = 2*((precisio[0]*record[0])/(precisio[0]+record[0]))
 f1score[1] = 2*((precisio[1]*record[1])/(precisio[1]+record[1]))
 f1score[2] = 2*((precisio[2]*record[2])/(precisio[2]+record[2]))
@@ -142,56 +156,104 @@ f1score[6] = 2*((precisio[6]*record[6])/(precisio[6]+record[6]))
 f1score[7] = 2*((precisio[7]*record[7])/(precisio[7]+record[7]))
 f1score[8] = 2*((precisio[8]*record[8])/(precisio[8]+record[8]))
 
-#AVERAGE 0=precisio, 1=record, 2=f1score
-avg[0] = np.nan_to_num(np.nansum(precisio)/np.count_nonzero(precisio))
-avg[1] = np.nan_to_num(np.nansum(record)/np.count_nonzero(record))
-avg[2] = np.nan_to_num(np.nansum(f1score)/np.count_nonzero(f1score))
+#-------- TOTAL 
 
-#Nan_to_num
 precisio = np.nan_to_num(precisio)
 record   = np.nan_to_num(record)
 f1score  = np.nan_to_num(f1score)
 
-#-----------------------------BAR PLOT
+total_precisio = sum(precisio) / np.count_nonzero(precisio)
+total_record = sum(record) / np.count_nonzero(record)
+total_f1score = sum(f1score) / np.count_nonzero(f1score)
 
-fig1 = plt.figure(1)
-a = np.arange(9)
-plt.bar(a, f1score, align='center')
-plt.xticks(a,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
-plt.ylabel('F1-Score')
-plt.xlabel('Event Type')
-plt.title('Resultat F1-Score per cada event')
-plt.savefig("f1score_result.png",bbox_inches='tight')
-plt.close()
+#--------- ACCURACY
 
-fig2 = plt.figure(2)
-b = np.arange(9)
-plt.bar(b, precisio, align='center')
-plt.xticks(b,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
-plt.ylabel('Precisio')
-plt.xlabel('Event Type')
-plt.title('Resultat Precisio per cada event')
-plt.savefig("precision_result.png",bbox_inches='tight')
-plt.close()
+class_result = list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Sessio6\Solucions_Grups\Res_11.txt','rb'),delimiter=' '))
+sol_train =    list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Sessio6\sol_1.txt','rb'),delimiter=' '));
 
-fig3 = plt.figure(3)
-c = np.arange(9)
-plt.bar(c, record, align='center')
-plt.xticks(c,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
-plt.ylabel('Record')
-plt.xlabel('Event Type')
-plt.title('Resultat Record per cada event')
-plt.savefig("record_result.png",bbox_inches='tight')
-plt.close()
+doc_id=[];
+tags=[];
+lon_fi=(len(class_result));
+m=0;
+llista=[];
 
-#--------------------SAVE RESULTS TO FILE
+while(m<lon_fi):  
+    if(m>0):
+      if(class_result[m][0]!=class_result[m-1][0]):
+           doc_id.append(tags);
+           tags=[];
+           tags.append(class_result[m][1]+'\n');
+           llista.append(doc_id);
+           doc_id=[];
+           doc_id.append(class_result[m][0]);     
+      else:
+           tags.append(class_result[m][1]+'\n');
+    else:
+        doc_id.append(class_result[m][0]);
+        tags.append((class_result[m][1]+'\n'));
+    m+=1
+
+doc_id.append(tags);    
+llista.append(doc_id);
+
+doc_id = [];
+tags = [];
+lon_fi = (len(sol_train));
+m = 0;
+llista1 = [];
+
+while(m<lon_fi): 
+    if(m>0):
+      if(sol_train[m][0]!=sol_train[m-1][0]):
+           doc_id.append(tags);
+           tags=[];
+           tags.append(sol_train[m][1]+'\n')
+           llista1.append(doc_id);
+           doc_id=[];
+           doc_id.append(sol_train[m][0]);   
+      else:
+           tags.append(sol_train[m][1]+'\n')
+    else:
+        doc_id.append(sol_train[m][0]);
+        tags.append((sol_train[m][1]+'\n'))
+    m+=1
+
+doc_id.append(tags);    
+llista1.append(doc_id)
+
+i = 0
+a = []
+b = []
+
+while (i<(len(llista1))):
+    j=0
+    while (j<(len(llista))):
+      if(llista1[i][0]==llista[j][0]):
+          a.append(llista1[i][1])
+          b.append(llista[j][1])
+          break
+      j=j+1
+    i=i+1
+    
+i=0
+cont=0.0
+
+while(i<len(a)):
+    if(a[i]==b[i]):
+        cont=cont+1;
+    i=i+1;
+
+accuracy = cont/len(a)*100
+tpcent_erroni = 100 - accuracy
+
+#--------- RESULTAT.TXT
 
 events = [concert, conference, exhibition, fashion, non_event, other, protest, sports, the_dance]
 ev_name = ['Concert        ', 'Conference     ', 'Exhibition     ', 'Fashion        ', 'Non_event      ', 'Other          ', 'Protest        ', 'Sports         ', 'Theater_dance  ']
 
 f = open('resultat.txt', 'w')
-f.write("Resultats d'avaluació:\n\n")
-f.write("Matrius de confusió\n\n")
+f.write("Resultats d'avaluaciÃ³:\n\n")
+f.write("Matrius de confusiÃ³\n\n")
 i = 0
 while (i < 9):
     f.write(ev_name[i]+'\n') 
@@ -210,7 +272,7 @@ while (i < 9):
     i = i + 1  
 
 f.write('Resultats:\n\n')
-f.write('            Precisió    Record   F1-Score\n')
+f.write('            Precisio    Record   F1-Score\n')
 
 x = 0
 while (x < 9):
@@ -221,16 +283,61 @@ while (x < 9):
     f.write('      ')
     f.write(str("%.2f" % f1score[x])+'\n')
     x = x + 1
-
+    
 f.write('-----------------------------------------\n')
-f.write('     Precisió   Record   F1-Score\n')
-f.write('AVG    ')
-f.write(str("%.2f" % avg[0]))
-f.write('      ')
-f.write(str("%.2f" % avg[1])) 
-f.write('      ')
-f.write(str("%.2f" % avg[2])) 
-f.write('\n\n')
+f.write('\n')
+f.write('Precisio: '+str("%.5f" % total_precisio+'\n'))
+f.write('Record  : '+str("%.5f" % total_record+'\n'))
+f.write('F1-Score: '+str("%.5f" % total_f1score+'\n\n'))
+f.write('Accuracy: '+str("%.2f" % accuracy+'%\n'))
+
+#---------------- FIGURES
+
+fig1 = plt.figure(1)
+a = np.arange(9)
+plt.bar(a, f1score, align='center')
+plt.xticks(a,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
+plt.ylabel('F1-Score')
+plt.xlabel('Event Type')
+plt.title('Resultat F1-Score per cada event')
+fig1.savefig("f1score_result.png",bbox_inches='tight')
+
+fig2 = plt.figure(2)
+a = np.arange(9)
+plt.bar(a, precisio, align='center')
+plt.xticks(a,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
+plt.ylabel('Precisio')
+plt.xlabel('Event Type')
+plt.title('Resultat Precisio per cada event')
+fig2.savefig("precision_result.png",bbox_inches='tight')
+
+fig3 = plt.figure(3)
+a = np.arange(9)
+plt.bar(a, record, align='center')
+plt.xticks(a,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
+plt.ylabel('Record')
+plt.xlabel('Event Type')
+plt.title('Resultat Record per cada event')
+fig3.savefig("record_result.png",bbox_inches='tight')
+
+events = [concert, conference, exhibition, fashion, non_event, other, protest, sports, the_dance]
+ev_name = ['Concert        ', 'Conference     ', 'Exhibition     ', 'Fashion        ', 'Non_event      ', 'Other          ', 'Protest        ', 'Sports         ', 'Theater_dance  ']
+
+fig4 = plt.figure(4)
+labels = 'Accuracy', 'Erroni'
+sizers = [accuracy, tpcent_erroni]
+colors = ['green', 'red']
+explode = (0.1, 0)
+plt.pie(sizers, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',shadow=True, startangle=90)
+plt.axis('equal')
+plt.savefig("accuracy.png",bbox_inches='tight')
+
+plt.show()
+
+#--------------------------- 
 
 f.close()
-print(str(datetime.timedelta(seconds=(time.time()-timer))))
+print '\n'
+print("Temps total: "+str(datetime.timedelta(seconds=(time.time()-timer)))), "\n"
+print 'Accuracy: ', str("%.2f" % accuracy+'%')
+print 'F1-Score:  '+str("%.5f" % total_f1score)
