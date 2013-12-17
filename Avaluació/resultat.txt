@@ -1,0 +1,86 @@
+﻿Resultats d'avaluacio:
+
+Matrius de confusio
+
+Concert        
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      78.0          151.0
+Truth   Negatiu      247.0         2089.0
+
+-----------------------------------------
+Conference     
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      0.0          11.0
+Truth   Negatiu      2.0         2552.0
+
+-----------------------------------------
+Exhibition     
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      3.0          25.0
+Truth   Negatiu      28.0         2509.0
+
+-----------------------------------------
+Fashion        
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      2.0          2.0
+Truth   Negatiu      3.0         2558.0
+
+-----------------------------------------
+Non_event      
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      1761.0          466.0
+Truth   Negatiu      214.0         124.0
+
+-----------------------------------------
+Other          
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      0.0          19.0
+Truth   Negatiu      31.0         2515.0
+
+-----------------------------------------
+Protest        
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      1.0          8.0
+Truth   Negatiu      7.0         2549.0
+
+-----------------------------------------
+Sports         
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      4.0          12.0
+Truth   Negatiu      173.0         2376.0
+
+-----------------------------------------
+Theater_dance  
+                      Classificacio
+                   Positiu      Negatiu
+Ground  Positiu      3.0          19.0
+Truth   Negatiu      8.0         2535.0
+
+-----------------------------------------
+Resultats:
+
+            Precisio    Record   F1-Score
+Concert        0.24      0.34      0.28
+Conference     0.00      0.00      0.00
+Exhibition     0.10      0.11      0.10
+Fashion        0.40      0.50      0.44
+Non_event      0.89      0.79      0.84
+Other          0.00      0.00      0.00
+Protest        0.12      0.11      0.12
+Sports         0.02      0.25      0.04
+Theater_dance  0.27      0.14      0.18
+-----------------------------------------
+
+Precisio: 0.29268
+Record  : 0.31943
+F1-Score: 0.28669
+
+Accuracy: 76.31%
