@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-
 #Metadata Social Event Classification: CLASSIFICADOR
 #Sergi Diaz, Iker Elorza, Ferran Monfort, Jordi Aguilar
 
-import pandas as pd
 import csv
-import numpy as np
+import time
+import datetime
+import tfidf
 
-dades_clas = list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_clas\doc_classificador.csv','rb'),delimiter=' '));
+timer=time.time()
+
+dades_clas = list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Document_passar_class(2).txt','rb'),delimiter=' '));
 
 doc_id=[];
 tags=[];
@@ -100,113 +102,40 @@ while(itera<tam):
     protest = ['protest']
     non_event=['non_event']
     
-     
-         
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_con.count((llista[itera][1])[i])
-      cont_concert=cont_concert+aux
-      i+=1
-    concert.append(cont_concert)
-
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_conf.count(llista[itera][1][i])
-      cont_conference=cont_conference+aux
-      i+=1
-    conference.append(cont_conference)
+    table=tfidf.tfidf()
     
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_ex.count(llista[itera][1][i])
-      cont_exhibition=cont_exhibition+aux
-      i+=1
-    exhibition.append(cont_exhibition)
+    table.addDocument('concert',llista_con)
+    table.addDocument('conference',llista_conf)
+    table.addDocument('exhibition',llista_ex)
+    table.addDocument('fashion',llista_fas)
+    table.addDocument('other',llista_ot)
+    table.addDocument('sports',llista_sp)
+    table.addDocument('theater_dance',llista_td)
+    table.addDocument('protest',llista_pr)
+    table.addDocument('non_event',llista_ne)
     
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_fas.count(llista[itera][1][i])
-      cont_fashion=cont_fashion+aux
-      i+=1
-    fashion.append(cont_fashion)
-   
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_ot.count(llista[itera][1][i])
-      cont_other=cont_other+aux
-      i+=1
-    other.append(cont_other)
+    taula = table.similarities(llista[itera][1])
 
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_sp.count(llista[itera][1][i])
-      cont_sports=cont_sports+aux
-      i+=1
-    sports.append(cont_sports)
+    maxims=(max(taula[0][1],taula[1][1],taula[2][1],taula[3][1],taula[4][1],taula[5][1],taula[6][1],taula[7][1],taula[8][1]))
     
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_td.count(llista[itera][1][i])
-      cont_theater_dance=cont_theater_dance+aux
-      i+=1
-    theater_dance.append(cont_theater_dance)
-
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_pr.count(llista[itera][1][i])
-      cont_protest=cont_protest+aux
-      i+=1
-    protest.append(cont_protest)
-
-    i=0;
-    while(i<len(llista[itera][1])):
-      aux=llista_ne.count(llista[itera][1][i])
-      cont_non_event=cont_non_event+aux
-      i+=1
-    non_event.append(cont_non_event)
+    a=0
     
-    maxims=(max(concert[1],conference[1],exhibition[1],fashion[1],other[1],sports[1],theater_dance[1],protest[1],non_event[1]))
-
-
-    if(maxims<3):
-        cont_id.append([llista[itera][0],non_event[0]])
-    else:
-        if(concert[1]==maxims):
-                cont_id.append([llista[itera][0],concert[0]]);
-        elif(conference[1]==maxims):
-                cont_id.append([llista[itera][0],conference[0]]);
-        elif(exhibition[1]==maxims):
-                cont_id.append([llista[itera][0],exhibition[0]]);
-        elif(fashion[1]==maxims):
-                cont_id.append([llista[itera][0],fashion[0]]);
-        elif(other[1]==maxims):
-                cont_id.append([llista[itera][0],other[0]]);
-        elif(sports[1]==maxims):
-                cont_id.append([llista[itera][0],sports[0]]);
-        elif(theater_dance[1]==maxims):
-                cont_id.append([llista[itera][0],theater_dance[0]]);
-        elif(protest[1]==maxims):
-                cont_id.append([llista[itera][0],protest[0]]);
-        elif(non_event[1]==maxims):
-                cont_id.append([llista[itera][0],non_event[0]]);
-        
+    while (a<9):
+        if(taula[a][1]==maxims):
+            cont_id.append([llista[itera][0],taula[a][0]])
+            break;
+        a=a+1   
                 
     itera+=1
     
-i=0;
 x=len(cont_id)
-
-fitxer = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Resultats_Definitius.txt","a")
-fitxer.write('document_id event_type' '\n')
-fitxer.close()
-        
+i=0
+fitxer = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\classificacio_amb_2.txt","wb")      
 while(i<x):
-        fitxer = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Resultats_Definitius.txt","a")
-        fitxer.write(str(cont_id[i][0])+' '+str(cont_id[i][1]))
+        fitxer.write(str(cont_id[i][0])+' '+str(cont_id[i][1])) 
         fitxer.write("\n")
-        fitxer.close()
-        
         i+=1
    
 fitxer.close()
-       
+
+print(str(datetime.timedelta(seconds=(time.time()-timer))))
