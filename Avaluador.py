@@ -13,10 +13,10 @@ import datetime
 timer = time.time()
 
 #Arxiu de resultats provinents del classificador
-class_result = pd.read_csv('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Sessio 5\Res_34.txt', sep=' ') 
+class_result = pd.read_csv('\resultat_classificador.txt', sep=' ') 
 
 #Ground truth
-sol_train  = pd.read_csv('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Projecte_GDSA_1.3-master\Projecte_GDSA_1.3-master\Metadades\PER.txt', sep=' ')
+sol_train  = pd.read_csv('\ground_truth.txt', sep=' ')
 
 #[+certs, +fals, -fals, -cert]
 concert =   np.zeros(4,float)
