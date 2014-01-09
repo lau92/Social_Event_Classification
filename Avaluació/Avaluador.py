@@ -13,10 +13,15 @@ import datetime
 timer = time.time()
 
 #Arxiu de resultats provinents del classificador
-class_result = pd.read_csv('\resultat_classificador.txt', sep=' ') 
+#class_result = pd.read_csv('/Users/JordiAguilar/Desktop/GDSAFINAL/resultats_classificats/classificacio_amb_6.txt', sep=' ')
+
+#on es descarregaran els arxius dels altres equips
+class_result = pd.read_csv('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Resultats_Classificats\grup34.txt', sep=' ') 
 
 #Ground truth
-sol_train  = pd.read_csv('\ground_truth.txt', sep=' ')
+sol_train  = pd.read_csv('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Arxius_Solucio\Solu_classificador_0679.txt', sep=' ')
+
+#sol_train = pd.read_csv('/Users/JordiAguilar/Downloads/GT_RES_6.txt', sep=' ') 
 
 #[+certs, +fals, -fals, -cert]
 concert =   np.zeros(4,float)
@@ -28,6 +33,16 @@ other =     np.zeros(4,float)
 protest =   np.zeros(4,float) 
 sports =    np.zeros(4,float)
 the_dance = np.zeros(4,float) 
+
+sol_events = []
+a = 1
+
+while ( a < len(sol_train)):
+    sol_events.append(sol_train.event_type[a])
+    a+=1
+    
+num_events = len(set(sol_events))
+
 
 i = 0
 j = 0
@@ -164,12 +179,15 @@ f1score  = np.nan_to_num(f1score)
 
 total_precisio = sum(precisio) / np.count_nonzero(precisio)
 total_record = sum(record) / np.count_nonzero(record)
-total_f1score = sum(f1score) / np.count_nonzero(f1score)
+total_f1score = sum(f1score) / num_events
 
 #--------- ACCURACY
 
-class_result = list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Sessio6\Solucions_Grups\Res_11.txt','rb'),delimiter=' '))
-sol_train =    list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Sessio6\sol_1.txt','rb'),delimiter=' '));
+#class_result = pd.read_csv('/Users/JordiAguilar/Desktop/GDSAFINAL/resultats_classificats/classificacio_amb_1.txt', sep=' ')
+#class_result = list(csv.reader(open('/Users/JordiAguilar/Desktop/GDSAFINAL/resultats_classificats/classificacio_amb_6.txt','rb'),delimiter=' '))
+class_result = list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Resultats_Classificats\grup34.txt','rb'),delimiter=' '));
+
+sol_train = list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Arxius_Solucio\Solu_classificador_0679.txt','rb'),delimiter=' '));
 
 doc_id=[];
 tags=[];
@@ -251,7 +269,7 @@ tpcent_erroni = 100 - accuracy
 events = [concert, conference, exhibition, fashion, non_event, other, protest, sports, the_dance]
 ev_name = ['Concert        ', 'Conference     ', 'Exhibition     ', 'Fashion        ', 'Non_event      ', 'Other          ', 'Protest        ', 'Sports         ', 'Theater_dance  ']
 
-f = open('resultat.txt', 'w')
+f = open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Solucio_Avaluador\Resultat_0077.txt', 'w')
 f.write("Resultats d'avaluaciÃ³:\n\n")
 f.write("Matrius de confusiÃ³\n\n")
 i = 0
@@ -291,53 +309,10 @@ f.write('Record  : '+str("%.5f" % total_record+'\n'))
 f.write('F1-Score: '+str("%.5f" % total_f1score+'\n\n'))
 f.write('Accuracy: '+str("%.2f" % accuracy+'%\n'))
 
-#---------------- FIGURES
 
-fig1 = plt.figure(1)
-a = np.arange(9)
-plt.bar(a, f1score, align='center')
-plt.xticks(a,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
-plt.ylabel('F1-Score')
-plt.xlabel('Event Type')
-plt.title('Resultat F1-Score per cada event')
-fig1.savefig("f1score_result.png",bbox_inches='tight')
-
-fig2 = plt.figure(2)
-a = np.arange(9)
-plt.bar(a, precisio, align='center')
-plt.xticks(a,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
-plt.ylabel('Precisio')
-plt.xlabel('Event Type')
-plt.title('Resultat Precisio per cada event')
-fig2.savefig("precision_result.png",bbox_inches='tight')
-
-fig3 = plt.figure(3)
-a = np.arange(9)
-plt.bar(a, record, align='center')
-plt.xticks(a,('concert', 'conference', 'exhibition', 'fashion', 'non_event', 'other', 'protest', 'sports', 'theater_dance'), rotation = 90)
-plt.ylabel('Record')
-plt.xlabel('Event Type')
-plt.title('Resultat Record per cada event')
-fig3.savefig("record_result.png",bbox_inches='tight')
-
-events = [concert, conference, exhibition, fashion, non_event, other, protest, sports, the_dance]
-ev_name = ['Concert        ', 'Conference     ', 'Exhibition     ', 'Fashion        ', 'Non_event      ', 'Other          ', 'Protest        ', 'Sports         ', 'Theater_dance  ']
-
-fig4 = plt.figure(4)
-labels = 'Accuracy', 'Erroni'
-sizers = [accuracy, tpcent_erroni]
-colors = ['green', 'red']
-explode = (0.1, 0)
-plt.pie(sizers, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',shadow=True, startangle=90)
-plt.axis('equal')
-plt.savefig("accuracy.png",bbox_inches='tight')
-
-plt.show()
-
-#--------------------------- 
-
-f.close()
 print '\n'
 print("Temps total: "+str(datetime.timedelta(seconds=(time.time()-timer)))), "\n"
 print 'Accuracy: ', str("%.2f" % accuracy+'%')
 print 'F1-Score:  '+str("%.5f" % total_f1score)
+
+#document_id event_type
