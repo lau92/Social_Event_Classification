@@ -9,7 +9,7 @@ import tfidf
 
 timer=time.time()
 
-dades_clas = list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Document_passar_class(2).txt','rb'),delimiter=' '));
+dades_clas = list(csv.reader(open('C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Arxius_Tags\Arxiu_classificador_0679.txt','rb'),delimiter=' '));
 
 doc_id=[];
 tags=[];
@@ -40,40 +40,40 @@ while(m<lon_fi):
 doc_id.append(tags);    
 llista.append(doc_id);
 
-concert = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\concert_ent.txt")
+concert = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\concert_ent.txt")
 llista_con=concert.readlines()
 concert.close()
 
-conference = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\conference_ent.txt")
+conference = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\conference_ent.txt")
 llista_conf=conference.readlines()
 conference.close()
 
-exhibition = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\exhibition_ent.txt")
+exhibition = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\exhibition_ent.txt")
 llista_ex=exhibition.readlines()
 exhibition.close()
 
 
-fashion = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\efashion_ent.txt")
+fashion = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\efashion_ent.txt")
 llista_fas=fashion.readlines()
 fashion.close()
 
-non_event = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\enon_event_ent.txt")
+non_event = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\enon_event_ent.txt")
 llista_ne=non_event.readlines()
 non_event.close()
 
-other = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\other_ent.txt")
+other = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\other_ent.txt")
 llista_ot=other.readlines()
 other.close()
 
-sports = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\sport_ent.txt")
+sports = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\sport_ent.txt")
 llista_sp=sports.readlines()
 sports.close()
 
-theater_dance = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\etheater_dance_ent.txt")
+theater_dance = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\etheater_dance_ent.txt")
 llista_td=theater_dance.readlines()
 theater_dance.close()
 
-protest = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Fitxers_sol\protest_ent.txt")
+protest = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Fitxers_sortida_descriptor\protest_ent.txt")
 llista_pr=protest.readlines()
 protest.close()
 
@@ -130,7 +130,8 @@ while(itera<tam):
     
 x=len(cont_id)
 i=0
-fitxer = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\classificacio_amb_2.txt","wb")      
+fitxer = open("C:\Users\Iker\Desktop\Q5-7\GDSA\Classificador\Examen_Final\Resultats_Classificats\classificacio_amb_0679.txt","wb")     
+#fitxer.write(str("document_id event_type"+'\n')) #LINIA PER NOSALTRES PER PODER AVALUAR SENSE EDITAR ELS FITXERS A MA
 while(i<x):
         fitxer.write(str(cont_id[i][0])+' '+str(cont_id[i][1])) 
         fitxer.write("\n")
